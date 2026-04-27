@@ -1,7 +1,7 @@
 <!-- /src/main/resources/io/jenkins/plugins/MfaUserProperty/config.jelly -->
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" 
-         xmlns:f="/lib/form" 
+<j:jelly xmlns:j="jelly:core"
+         xmlns:f="/lib/form"
          xmlns:l="/lib/layout"
          xmlns:st="jelly:stapler">
 
@@ -12,6 +12,7 @@
     <f:checkbox id="mfaEnabledCheckbox" />
   </f:entry>
 
+  <!-- Setup container: always rendered; JS controls visibility -->
   <j:if test="${!instance.mfaEnabled}">
     <div id="mfaSetupContainer" class="hidden">
       <f:entry title="${%MfaUserProperty.qrCode.label}">
@@ -22,7 +23,27 @@
         <f:textbox field="totpCode" />
       </f:entry>
 
-      <input type="hidden" name="_.secretKey" />
+      <input type="hidden" name="_.secretKey" id="mfaSecretKey" />
+
+      <div id="backupCodesSection" class="hidden">
+        <f:entry title="${%MfaUserProperty.backupCodes.label}">
+          <div class="backup-codes-warning">${%MfaUserProperty.backupCodes.warning}</div>
+          <div id="backupCodesList" class="backup-codes-list"></div>
+        </f:entry>
+      </div>
     </div>
   </j:if>
+
+  <j:if test="${instance.mfaEnabled}">
+    <div class="mfa-status-enabled">
+      <span>${%MfaUserProperty.status.enabled}</span>
+      <j:if test="${instance.hasBackupCodes()}">
+        <span class="backup-codes-remaining"> — ${%MfaUserProperty.backupCodes.available}</span>
+      </j:if>
+      <j:if test="${!instance.hasBackupCodes()}">
+        <span class="backup-codes-depleted"> — ${%MfaUserProperty.backupCodes.depleted}</span>
+      </j:if>
+    </div>
+  </j:if>
+
 </j:jelly>

@@ -3,20 +3,29 @@
 <j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout" xmlns:f="/lib/form">
   <l:layout title="MFA Verification">
     <l:main-panel>
-      <h1>MFA Verify</h1>
-      <j:if test="${request.getParameter('error') != null}">
+      <h1>${%MfaVerifyAction.title}</h1>
+
+      <j:if test="${request.getParameter('error') == 'locked'}">
+        <div class="error-message">
+          ${%MfaVerifyAction.error.locked}
+        </div>
+      </j:if>
+      <j:if test="${request.getParameter('error') == '1'}">
         <div class="error-message">
           ${%MfaUserProperty.totpCode.invalid}
         </div>
       </j:if>
+
       <form method="post" action="${rootURL}/mfa-verify/verify">
         <f:entry title="${%MfaUserProperty.verificationCode.label}">
           <f:textbox name="totpCode" />
         </f:entry>
         <f:entry>
-          <f:submit value="Verify" />
+          <f:submit value="${%MfaVerifyAction.submit}" />
         </f:entry>
       </form>
+
+      <p class="setting-description">${%MfaVerifyAction.backupCodeHint}</p>
     </l:main-panel>
   </l:layout>
 </j:jelly>

@@ -1,15 +1,3 @@
-/*
- * Project: MFA TOTP Auth Plugin
- *
- * Class: TOTPUtil
- *
- * Utility class for standards-compliant TOTP (RFC 6238) operations.
- * Provides methods to generate secrets, build otpauth URIs, and verify codes.
- * Compatible with all major authenticator apps.
- *
- * Author: Allan Barcelos
- * Date: 2025-07-17
- */
 package io.jenkins.plugins;
 
 import hudson.util.Secret;
@@ -26,8 +14,10 @@ public class TOTPUtil {
     private static final Logger LOGGER = Logger.getLogger(TOTPUtil.class.getName());
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
-    private static final int CODE_LENGTH = 6;
-    private static final int TIME_STEP = 30; // seconds
+    static final int CODE_LENGTH = 6;
+    static final int TIME_STEP = 30; // seconds
+    // RFC 6238 recommends accepting ±1 time step to handle clock skew
+    private static final int WINDOW = 1;
 
     public static String generateSecret() {
         byte[] buffer = new byte[20]; // 160 bits
@@ -55,17 +45,20 @@ public class TOTPUtil {
             if (secret == null || code == null || code.length() != CODE_LENGTH) {
                 return false;
             }
-
             long time = System.currentTimeMillis() / 1000 / TIME_STEP;
-            String expectedCode = generateTOTP(secret, time);
-            return expectedCode.equals(code);
+            for (int i = -WINDOW; i <= WINDOW; i++) {
+                if (generateTOTP(secret, time + i).equals(code)) {
+                    return true;
+                }
+            }
+            return false;
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "TOTP verification failed", e);
             return false;
         }
     }
 
-    private static String generateTOTP(String secret, long time) throws NoSuchAlgorithmException, InvalidKeyException {
+    static String generateTOTP(String secret, long time) throws NoSuchAlgorithmException, InvalidKeyException {
         Base32 base32 = new Base32();
         byte[] keyBytes = base32.decode(secret);
         byte[] timeBytes = new byte[8];

@@ -1,12 +1,16 @@
 <!-- /src/main/resources/io/jenkins/plugins/MfaGlobalConfig/config.jelly -->
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
-    <f:section title="Global MFA Settings">
-        <f:entry title="Enforce MFA for all users" field="enforceMfaForAllUsers">
+    <f:section title="${%MfaGlobalConfig.section.title}">
+        <f:entry title="${%MfaGlobalConfig.enforceForAllUsers.label}" field="enforceMfaForAllUsers">
             <f:checkbox />
         </f:entry>
-        <f:entry title="Exclude API tokens from MFA" field="excludeApiTokens">
+        <f:entry title="${%MfaGlobalConfig.excludeApiTokens.label}" field="excludeApiTokens">
             <f:checkbox />
+        </f:entry>
+        <f:entry title="${%MfaGlobalConfig.sessionTimeout.label}" field="mfaSessionTimeoutMinutes">
+            <f:number clazz="setting-input number" min="0" />
+            <div class="setting-description">${%MfaGlobalConfig.sessionTimeout.description}</div>
         </f:entry>
     </f:section>
 </j:jelly>
