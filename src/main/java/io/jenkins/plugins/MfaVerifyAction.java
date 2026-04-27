@@ -6,8 +6,8 @@ import hudson.model.User;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.StaplerResponse;
+import org.kohsuke.stapler.StaplerRequest2;
+import org.kohsuke.stapler.StaplerResponse2;
 
 @Extension
 public class MfaVerifyAction implements RootAction {
@@ -30,7 +30,7 @@ public class MfaVerifyAction implements RootAction {
         return "mfa-verify";
     }
 
-    public void doVerify(StaplerRequest req, StaplerResponse rsp) throws IOException {
+    public void doVerify(StaplerRequest2 req, StaplerResponse2 rsp) throws IOException {
         User u = User.current();
         if (u == null) {
             rsp.sendRedirect(req.getContextPath() + "/login");

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.Stapler;
-import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerRequest2;
 
 public class MfaUserProperty extends UserProperty {
     private static final Logger LOGGER = Logger.getLogger(MfaUserProperty.class.getName());
@@ -52,7 +52,7 @@ public class MfaUserProperty extends UserProperty {
 
         // Load backup codes from session if they were just generated
         if (mfaEnabled) {
-            StaplerRequest currentReq = Stapler.getCurrentRequest();
+            StaplerRequest2 currentReq = Stapler.getCurrentRequest2();
             if (currentReq != null) {
                 String pending = (String) currentReq.getSession()
                         .getAttribute(MfaConstants.MFA_PENDING_BACKUP_CODES_ATTR);

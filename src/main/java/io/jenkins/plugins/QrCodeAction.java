@@ -14,8 +14,8 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.StaplerResponse;
+import org.kohsuke.stapler.StaplerRequest2;
+import org.kohsuke.stapler.StaplerResponse2;
 
 @Extension
 public class QrCodeAction implements RootAction {
@@ -40,7 +40,7 @@ public class QrCodeAction implements RootAction {
         return "mfa-totp";
     }
 
-    public void doGenerateSecret(StaplerRequest req, StaplerResponse rsp) throws IOException {
+    public void doGenerateSecret(StaplerRequest2 req, StaplerResponse2 rsp) throws IOException {
         User currentUser = User.current();
         if (currentUser == null) {
             rsp.sendError(401, "Not authenticated");
@@ -73,7 +73,7 @@ public class QrCodeAction implements RootAction {
         }
     }
 
-    public void doQrcode(StaplerRequest req, StaplerResponse rsp) throws IOException {
+    public void doQrcode(StaplerRequest2 req, StaplerResponse2 rsp) throws IOException {
         String secret = req.getParameter("secret");
         if (secret == null || secret.isEmpty()) {
             rsp.sendError(400, "Missing secret parameter");
@@ -94,7 +94,7 @@ public class QrCodeAction implements RootAction {
         }
     }
 
-    private void generateQRCodeImage(StaplerResponse rsp, String otpAuth) throws IOException, WriterException {
+    private void generateQRCodeImage(StaplerResponse2 rsp, String otpAuth) throws IOException, WriterException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(otpAuth, BarcodeFormat.QR_CODE, 200, 200);
         BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
