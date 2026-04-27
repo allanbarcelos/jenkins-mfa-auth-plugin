@@ -42,7 +42,7 @@
     <security.reporting>https://www.jenkins.io/security/#reporting-vulnerabilities</security.reporting>
     <security.team>security@jenkins.io</security.team>
     <!-- Library versions -->
-    <otpjava.version>2.0.1</otpjava.version>
+    <otpjava.version>2.1.0</otpjava.version>
     <zxing.version>3.5.3</zxing.version>
   </properties>
 
