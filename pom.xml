@@ -42,6 +42,7 @@
     <security.reporting>https://www.jenkins.io/security/#reporting-vulnerabilities</security.reporting>
     <security.team>security@jenkins.io</security.team>
     <hpi.strictBundledArtifacts>true</hpi.strictBundledArtifacts>
+    <hpi.bundledArtifacts>commons-codec,core,jai-imageio-core,javase,jcommander,otp-java</hpi.bundledArtifacts>
     <ban-deprecated-stapler.skip>false</ban-deprecated-stapler.skip>
     <ban-commons-lang-2.skip>false</ban-commons-lang-2.skip>
     <!-- Library versions -->
