@@ -47,7 +47,7 @@
     <ban-commons-lang-2.skip>false</ban-commons-lang-2.skip>
     <!-- Library versions -->
     <otpjava.version>2.1.0</otpjava.version>
-    <zxing.version>3.5.3</zxing.version>
+    <zxing.version>3.5.4</zxing.version>
   </properties>
 
   <dependencyManagement>
